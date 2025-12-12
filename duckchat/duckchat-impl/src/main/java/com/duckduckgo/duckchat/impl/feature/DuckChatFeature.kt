@@ -142,4 +142,11 @@ interface DuckChatFeature {
      */
     @Toggle.DefaultValue(DefaultFeatureValue.INTERNAL)
     fun contextualMode(): Toggle
+
+    /**
+     * @return `true` when we can sync the deletion of duck chats to sync backend
+     * If the remote feature is not present defaults to `true`
+     */
+    @Toggle.DefaultValue(DefaultFeatureValue.TRUE)
+    fun supportsSyncChatsDeletion(): Toggle
 }
