@@ -278,8 +278,8 @@ interface PrivacyProFeature {
      * with the new tier-based payload structure supporting Plus/Pro tiers.
      * The flag is exposed to FE via getFeatureConfig.
      */
-    @Toggle.DefaultValue(DefaultFeatureValue.TRUE)
-    fun useGetSubscriptionTierOptions(): Toggle
+    @Toggle.DefaultValue(DefaultFeatureValue.FALSE)
+    fun tierMessagingEnabled(): Toggle
 }
 
 @ContributesBinding(AppScope::class)
