@@ -97,6 +97,15 @@ interface SyncApi {
         token: String,
         until: String,
     ): Result<Unit>
+
+    /**
+     * Obtain a new "scoped token" for the sync service
+     * A scoped token has a reduced range of capabilities, restricted to only the given scope
+     */
+    fun rescopeToken(
+        token: String,
+        scope: String,
+    ): Result<String>
 }
 
 @ContributesBinding(AppScope::class)
@@ -397,6 +406,25 @@ class SyncServiceRemote @Inject constructor(
 
         return onSuccess(response) {
             Result.Success(Unit)
+        }
+    }
+
+    override fun rescopeToken(
+        token: String,
+        scope: String,
+    ): Result<String> {
+        val response = runCatching {
+            val rescopeCall = syncService.rescopeToken("Bearer $token", TokenRescopeRequest(scope))
+            rescopeCall.execute()
+        }.getOrElse { throwable ->
+            logcat(INFO) { "Sync-service: rescope token error ${throwable.localizedMessage}" }
+            return Result.Error(reason = throwable.message.toString())
+        }
+
+        return onSuccess(response) { body ->
+            val newToken = body?.token.takeUnless { it.isNullOrEmpty() }
+                ?: return@onSuccess Result.Error(reason = "RescopeToken: empty token in body")
+            Result.Success(newToken)
         }
     }
 

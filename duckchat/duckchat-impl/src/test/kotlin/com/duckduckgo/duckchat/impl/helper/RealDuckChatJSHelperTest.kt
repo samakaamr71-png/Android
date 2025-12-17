@@ -188,6 +188,7 @@ class RealDuckChatJSHelperTest {
             put("supportsImageUpload", false)
             put("supportsStandaloneMigration", false)
             put("supportsAIChatFullMode", false)
+            put("supportsAIChatSync", false)
         }
 
         val expected = JsCallbackData(jsonPayload, featureName, method, id)
@@ -219,6 +220,7 @@ class RealDuckChatJSHelperTest {
             put("supportsImageUpload", false)
             put("supportsStandaloneMigration", false)
             put("supportsAIChatFullMode", false)
+            put("supportsAIChatSync", false)
         }
 
         val expected = JsCallbackData(jsonPayload, featureName, method, id)
@@ -250,6 +252,7 @@ class RealDuckChatJSHelperTest {
             put("supportsImageUpload", false)
             put("supportsStandaloneMigration", false)
             put("supportsAIChatFullMode", true)
+            put("supportsAIChatSync", false)
         }
 
         val expected = JsCallbackData(jsonPayload, featureName, method, id)
@@ -280,6 +283,7 @@ class RealDuckChatJSHelperTest {
             put("supportsImageUpload", false)
             put("supportsStandaloneMigration", true)
             put("supportsAIChatFullMode", false)
+            put("supportsAIChatSync", false)
         }
 
         val expected = JsCallbackData(jsonPayload, featureName, method, id)
@@ -444,6 +448,35 @@ class RealDuckChatJSHelperTest {
             put("supportsImageUpload", true)
             put("supportsStandaloneMigration", false)
             put("supportsAIChatFullMode", false)
+            put("supportsAIChatSync", false)
+        }
+
+        assertEquals(expectedPayload.toString(), result!!.params.toString())
+    }
+
+    @Test
+    fun whenGetAIChatNativeConfigValuesAndChatSyncEnabledThenReturnJsCallbackDataWithSupportsAIChatSyncEnabled() = runTest {
+        val featureName = "aiChat"
+        val method = "getAIChatNativeConfigValues"
+        val id = "123"
+
+        whenever(mockDuckChat.isDuckChatFeatureEnabled()).thenReturn(true)
+        whenever(mockDuckChat.isDuckChatFullScreenModeEnabled()).thenReturn(false)
+        whenever(mockDuckChat.isChatSyncFeatureEnabled()).thenReturn(true)
+
+        val result = testee.processJsCallbackMessage(featureName, method, id, null)
+
+        val expectedPayload = JSONObject().apply {
+            put("platform", "android")
+            put("isAIChatHandoffEnabled", true)
+            put("supportsClosingAIChat", true)
+            put("supportsOpeningSettings", true)
+            put("supportsNativeChatInput", false)
+            put("supportsURLChatIDRestoration", false)
+            put("supportsImageUpload", false)
+            put("supportsStandaloneMigration", false)
+            put("supportsAIChatFullMode", false)
+            put("supportsAIChatSync", true)
         }
 
         assertEquals(expectedPayload.toString(), result!!.params.toString())
