@@ -3132,6 +3132,8 @@ class BrowserTabFragment :
     }
 
     private fun showDuckChatBottomSheet() {
+        // InputBottomSheetFragment().show(getParentFragmentManager(), "")
+
         val duckChatContextualSheet = duckChatContextualBottomSheetFactory.create()
         duckChatContextualSheet.show(childFragmentManager, DuckChatContextualBottomSheet.TAG)
     }
