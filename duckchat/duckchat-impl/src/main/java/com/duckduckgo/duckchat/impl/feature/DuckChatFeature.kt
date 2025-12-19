@@ -140,6 +140,6 @@ interface DuckChatFeature {
     /**
      * @return `true` when the contextual mode is enabled
      */
-    @Toggle.DefaultValue(DefaultFeatureValue.INTERNAL)
+    @Toggle.DefaultValue(DefaultFeatureValue.FALSE)
     fun contextualMode(): Toggle
 }
