@@ -4500,7 +4500,7 @@ class BrowserTabViewModel @Inject constructor(
             command.value = HideKeyboardForChat
         }
 
-        if (duckAiFeatureState.showFullScreenModeToggle.value) {
+        if (duckAiFeatureState.showFullScreenModeToggle.value && !isNtp) {
             command.value = Command.ShowDuckAIContextualMode
             return
         }
